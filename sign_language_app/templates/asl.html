@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>convert to asl</title>
+
+<style>
+  body{
+    background: radial-gradient(circle, black,rgba(0, 186, 22, 0.743));
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: white;
+
+  }
+  
+  .navbar {
+    background-color: black;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    position: fixed;
+    top: 0;
+  }
+  
+  
+  .home-link {
+    color: rgb(3, 255, 3);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: larger;
+  }
+  
+  .centered-div {
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 50px;
+  }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <a href="/" class="home-link">Home</a>
+</div>
+
+
+
+<div class="centered-div">
+  <h2>Convert to ASL using funtranslations api</h2>
+
+  <div class="ftembed">
+    <script src="https://funtranslations.com/extensions/embed/v1/funtranslations.embed.js"></script>
+    <script>
+        FunTranslations.Embed.render({url: '/sign-language' , translator: 'sign-language' });
+    </script>
+  </div>
+  
+</div>
+
+</body>
+</html>

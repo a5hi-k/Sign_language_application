@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Animation</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/FBXLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/MTLLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/OBJLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/libs/fflate.min.js"></script></head>
+
+    <style>
+        .navbar {
+            z-index: 0;
+            background-color:rgb(0, 0, 0);
+            overflow: hidden;
+            }
+
+            .navbar a {
+            float: left;
+            display: block;
+            color: rgb(1, 255, 1);
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 16px;
+            }
+
+            .navbar a:hover {
+            background-color: #383838;
+            color: white;
+            font-weight: bolder;
+            }
+    </style>
+
+<body>
+
+    <div class="navbar">
+        <a href="/">Home</a>
+    </div>    
+
+    <div style="display: flex; justify-content: center; align-items: center; color: black; background-color: rgba(0, 255, 0, 0.662);">
+        <h3>{{sign}}</h3>
+        </div>
+    
+    <script>
+        let scene, camera, renderer;
+
+        function init() {
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x98FF98);
+
+            camera = new THREE.PerspectiveCamera(29, window.innerWidth/window.innerHeight, 1, 1000);
+            camera.position.z = 750;
+
+            // // Ambient light to add overall lighting to the scene
+            // const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Soft white light
+            // scene.add(ambientLight);
+
+
+            light = new THREE.HemisphereLight(0xffffff, 0x444444, 1.0);
+            light.position.set(100, 1, 0);
+            scene.add(light);
+
+            light = new THREE.DirectionalLight(0xffffff, 1.0);
+            light.position.set(0, 1, 0);
+            scene.add(light);
+
+            // Add a spotlight to create shadows
+            const spotLight = new THREE.SpotLight(0xffffff);
+            spotLight.position.set(100, 1000, 100);
+            spotLight.castShadow = true;
+            scene.add(spotLight);
+
+
+            renderer = new THREE.WebGLRenderer({antialias:true});
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            controls = new THREE.OrbitControls(camera,  renderer.domElement);
+            controls.addEventListener('change', renderer);
+
+            const fbxLoader = new THREE.FBXLoader();
+
+            let fbxFile = '';
+
+            let sign = "{{sign}}";
+            
+            if (sign === 'hello') {
+                fbxFile = '/static/hello.fbx';
+            } else if (sign === 'welcome') {
+                fbxFile = '/static/welcome.fbx';
+            } else if (sign === 'world') {
+                fbxFile = '/static/world.fbx';
+            }
+            else if (sign === 'sign') {
+                fbxFile = '/static/sign.fbx';
+            } 
+            else if (sign === 'language') {
+                fbxFile = '/static/language.fbx';
+            } 
+            else if (sign === 'nice to meet you') {
+                fbxFile = '/static/niceto_meet_you.fbx';
+            } 
+            else if (sign === 'sign language') {
+                fbxFile = '/static/sign_language.fbx';
+            } 
+            else if (sign === 'see you later') {
+                fbxFile = '/static/see_you_later.fbx';
+            } 
+            else if (sign === 'thank you') {
+                fbxFile = '/static/thank_you.fbx';
+            }  
+            
+            else {
+                fbxFile = '/static/not_found.fbx'; 
+            }
+
+            fbxLoader.load(fbxFile, (object) => {
+            
+
+            mixer = new THREE.AnimationMixer(object);
+            const action = mixer.clipAction(object.animations[0]); // Assuming the first animation
+            action.play();
+
+            object.traverse((child) => {
+                if (child.isMesh) {
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                }
+
+            });
+            scene.add(object);
+            animate();
+        });
+
+        }
+        
+        function animate() {
+        renderer.render(scene, camera);
+        mixer.update(0.016); 
+        requestAnimationFrame(animate);
+        }
+        init();
+
+
+
+
+        function playText(text) {
+    
+        const utterance = new SpeechSynthesisUtterance(text);
+        
+        
+        // utterance.voice = speechSynthesis.getVoices()[0]; 
+        
+        speechSynthesis.speak(utterance);
+    }
+
+   
+    function playAudioAtRegularIntervals() {
+        
+        const textToSpeak = "{{sign}}"; 
+
+        
+        playText(textToSpeak);
+    }
+
+    window.onload = function() {
+        
+        setInterval(playAudioAtRegularIntervals, 4000); 
+    };
+
+
+
+    </script>
+
+    
+</body>
+</html>

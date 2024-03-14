@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sign language detection</title>
+    <link rel="stylesheet" href="static/style.css">
+    <style>
+        
+    </style>
+</head>
+<body>
+
+
+
+
+<div class="navbar">
+    <a href="/">Home</a>
+    <a href="#">About</a>
+    <a href="#">Contact</a>
+    <form id="animate" method="POST" action="/avatar">
+        <textarea name="sign" id="avatar" placeholder="Type the sign you want to animate" required></textarea>
+        <input type="submit" value="Ask Kai">
+    </form>
+
+</div>
+
+<video src="/static/background_sign.mp4"type="video/mp4" class="background-video" autoplay muted loop alt="video not available"></video>
+
+<div class="overlay"></div>
+
+<div class="center-buttons">
+    <a href="/yolo_detect"><button class="btn">Detect using Yolov7</button></a>
+    <a href="/mediapipe_detect"><button class="btn">Detect using Mediapipe</button></a>
+    <a href="/asl"><button class="btn">Convert text to ASL</button></a>
+</div>
+
+
+</body>
+</html>
